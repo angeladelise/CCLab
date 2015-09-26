@@ -1,0 +1,97 @@
+
+var nameinput;
+
+// http://localhost/#access_token=1410992284.7ca8963.f603e277548348f1bf0fa24082e376ca
+
+
+
+  function myFunction() {
+      var nameinput = document.getElementById("my-address").value;
+      //alert(nameinput);
+      //console.log(nameinput.value);
+  
+  // window.location.reload(true);
+
+
+
+var feed  = new Instafeed({
+	//only show tagged images
+	get: "tagged", 
+	//locationId: 
+	tagName: nameinput,
+	//limit is number of pics visible
+	limit: "50",
+	//links to instagram page set to false, default is true
+	//links: "false",
+	//puts the most liked photos first
+	sortBy: "most-liked",
+	clientId: "7ca8963fd1414b218beed9b04e2a5cca" //my client id
+});
+
+feed.run();
+instaloc();
+
+$('#submit').click(function(){
+	var search_term ={
+		q:'bowery'
+	};
+	search(search_term);
+
+});
+
+function instaloc(lat, long){
+//https://api.instagram.com/v1/media/search?lat=50.85396&lng=4.34150&distance=2000&access_token=ACCESS-TOKEN
+  
+  console.log('lat is ' + lat);
+  console.log('long is ' + long);
+
+	$.ajax({
+		url: 'https://api.instagram.com/v1/media/search?lat=' + lat +'&lng=' + long+ '&distance=2000&access_token=1410992284.7ca8963.f603e277548348f1bf0fa24082e376ca',
+		dataType: 'jsonp',
+		success: function(data){
+			console.log(data);
+
+		// 	for(item in data['results']){
+		// 		$('#tweets').append(
+		// 			'<li>' + data['results'][item]['text'] + '</li>');
+			}
+		}
+
+	});
+
+}
+
+}
+
+
+//have the page refresh every couple of seconds
+//displays new content keeps viewer engaged
+
+// var time = new Date().getTime();
+
+//     function refresh() {
+//         if(new Date().getTime() - time >= 10000) 
+//             window.location.reload(true);
+//         else 
+//             setTimeout(refresh, 1000);
+//     }
+
+//     setTimeout(refresh, 1000);
+
+
+
+
+
+
+
+
+
+var init = function(){
+	loadImages();
+	loadText();
+
+}
+
+$(document).ready(function(){
+	init();
+})

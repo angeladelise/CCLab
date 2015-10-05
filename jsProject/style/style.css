@@ -1,0 +1,15 @@
+body{
+	background-color: black;
+}
+
+#instafeed img{
+	padding: 5px;
+	opacity: 0.6;
+	filter:alpha(opacity = 80);
+	transition: opacity 0.8s ease;
+}
+
+#instafeed img:hover{
+	opacity:1;
+	filter:alpha(opacity =100);
+}

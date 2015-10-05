@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Wander</title>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" type="image/png" href="earth.png">
+	<script type="text/javascript" src="instafeed.js"></script>
+	
+	     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>
+
+  </head>
+  <body>
+    <div id = header>
+        <h1>WANDER</h1>
+        <div id=subhead>
+          <a class="button" id="about" onclick="document.getElementById('aboutdiv').style.display='block'">About</a>
+          <a class="button" id="contact" onclick="document.getElementById('contactdiv').style.display='block'">Contact</a>
+        </div>
+    </div>
+    
+    <div id="aboutdiv">
+      <div class="dialog">
+         <a href="#close" title="Close" class="close" onclick="document.getElementById('aboutdiv').style.display='none'">X</a>
+          <br><br>
+          <h2>Ever wonder about what people post around the world? <br>
+          Now you can see it for yourself. Wander is a new application where you can see what photos people post
+          on Instagram from anywhere in the world! <br><br>
+          This application was originally designed to analyze the differences 
+          in cultural behaviors through the digital medium. 
+          Do you think individuals from Beijing would post more food photos than individuals from Paris?
+          Do you think people from Iceland would post more photographs of landscapes than people from Peru?
+          Whether you question these behaviors or are just curious, Wander is the application to use!
+          <br>
+          <br>
+          Now go ahead and Wander around the globe!</h2>
+
+      </div>
+    </div>
+    
+    <div id="contactdiv">
+      <div class="dialog">
+         <a href="#close" title="Close" class="close" onclick="document.getElementById('contactdiv').style.display='none'">X</a>
+          <h2>Do you have questions or comments about this application?<br>
+          Write our creators an email</h2>
+          <br>
+          <br>
+          <input type="text" class="contactform" size="35" placeholder="Enter your first name"><br><br>
+          <input type="text" class="contactform" size="35" placeholder="Enter your last name"><br><br>
+          <input type="text" class="contactform" size="35" placeholder="Enter your email"><br><br>
+          <input type="text" class="contactform" size="35" placeholder="Enter your comment" id="comment"><br><br>
+          <button id="contactsubmit" onclick="document.getElementById('contactdiv').style.display='none'; document.getElementById('thankyoudiv').style.display='display'">Submit</button>
+      
+      </div>
+    </div>
+    
+    <div id="thankyoudiv">
+      <a href="#close" title="Close" class="close" onclick="document.getElementById('thankyoudiv').style.display='none'">X</a>
+      <h2>Thank you for submitting that comment!<br>
+      We will reply to you shortly</h2>
+    </div>
+    
+    
+    <h2>In the box below, type in a place and an Instagram feed of photos from that area will appear!</h2>
+
+        <br>
+        <br>  
+        <br>
+        <input type="text" id="my-address" size="35"><br>
+        <button id="getCords" onClick="codeAddress();">Submit</button>
+
+      <br>
+      <br>
+
+    	<div id="instafeed">
+    	  <img id = "earth" src="earth.png"  width="30" height="30">
+    	</div>
+    	<!--refresh the page every time you hit submit, append image to the top of div stackoverflow-->
+
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    	 <script src="script.js"></script>
+  </body>
+</html>

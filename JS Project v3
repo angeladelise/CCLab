@@ -1,0 +1,389 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Wander</title>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="instafeed.js"></script>
+	
+	     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:300' rel='stylesheet' type='text/css'>
+
+  </head>
+  <body>
+    <h1>Wander</h1>
+    <h2>An app used to analyze cultural behaviors in the digital medium</h2>
+    <h2>In the box below type in a place and a live Instagram feed of photos posted in that area will appear!</h2>
+  <!--  <form id="form1">-->
+  <!--   Type in a city: -->
+  <!--   <br><br><input type="text" name="city" id ="city" -->
+  <!--   placeholder="Do not include spaces, ex: newyorkcity" size="35"><br><br>-->
+  <!--  <input type="button" onclick="myFunction()" value="Submit">-->
+  <!--</form>-->
+  
+        <br>
+        <input type="text" id="my-address" size="35"><br>
+        <button id="getCords" onClick="codeAddress();">Submit</button>
+
+
+    	<div id="instafeed"></div>
+
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    	 <script src="script.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+(function() {
+  var e, t;
+  e = function() {
+    function e(e, t) {
+      var n, r;
+      this.options = {
+        target: "instafeed",
+        get: "popular",
+        resolution: "thumbnail",
+        sortBy: "none",
+        links: !0,
+        mock: !1,
+        useHttp: !1
+      };
+      if (typeof e == "object")
+        for (n in e) r = e[n], this.options[n] = r;
+      this.context = t != null ? t : this, this.unique = this._genKey()
+    }
+    return e.prototype.hasNext = function() {
+      return typeof this.context.nextUrl == "string" && this.context.nextUrl.length > 0
+    }, e.prototype.next = function() {
+      return this.hasNext() ? this.run(this.context.nextUrl) : !1
+    }, e.prototype.run = function(t) {
+      var n, r, i;
+      if (typeof this.options.clientId != "string" && typeof this.options.accessToken != "string") throw new Error("Missing clientId or accessToken.");
+      if (typeof this.options.accessToken != "string" && typeof this.options.clientId != "string") throw new Error("Missing clientId or accessToken.");
+      return this.options.before != null && typeof this.options.before == "function" && this.options.before.call(this), typeof document != "undefined" && document !== null && (i = document.createElement("script"), i.id = "instafeed-fetcher", i.src = t || this._buildUrl(), n = document.getElementsByTagName("head"), n[0].appendChild(i), r = "instafeedCache" + this.unique, window[r] = new e(this.options, this), window[r].unique = this.unique), !0
+    }, e.prototype.parse = function(e) {
+      var t, n, r, i, s, o, u, a, f, l, c, h, p, d, v, m, g, y, b, w, E, S;
+      if (typeof e != "object") {
+        if (this.options.error != null && typeof this.options.error == "function") return this.options.error.call(this, "Invalid JSON data"), !1;
+        throw new Error("Invalid JSON response")
+      }
+      if (e.meta.code !== 200) {
+        if (this.options.error != null && typeof this.options.error == "function") return this.options.error.call(this, e.meta.error_message), !1;
+        throw new Error("Error from Instagram: " + e.meta.error_message)
+      }
+      if (e.data.length === 0) {
+        if (this.options.error != null && typeof this.options.error == "function") return this.options.error.call(this, "No images were returned from Instagram"), !1;
+        throw new Error("No images were returned from Instagram")
+      }
+      this.options.success != null && typeof this.options.success == "function" && this.options.success.call(this, e), this.context.nextUrl = "", e.pagination != null && (this.context.nextUrl = e.pagination.next_url);
+      if (this.options.sortBy !== "none") {
+        this.options.sortBy === "random" ? d = ["", "random"] : d = this.options.sortBy.split("-"), p = d[0] === "least" ? !0 : !1;
+        switch (d[1]) {
+          case "random":
+            e.data.sort(function() {
+              return .5 - Math.random()
+            });
+            break;
+          case "recent":
+            e.data = this._sortBy(e.data, "created_time", p);
+            break;
+          case "liked":
+            e.data = this._sortBy(e.data, "likes.count", p);
+            break;
+          case "commented":
+            e.data = this._sortBy(e.data, "comments.count", p);
+            break;
+          default:
+            throw new Error("Invalid option for sortBy: '" + this.options.sortBy + "'.")
+        }
+      }
+      if (typeof document != "undefined" && document !== null && this.options.mock === !1) {
+        a = e.data, this.options.limit != null && a.length > this.options.limit && (a = a.slice(0, this.options.limit + 1 || 9e9)), n = document.createDocumentFragment(), this.options.filter != null && typeof this.options.filter == "function" && (a = this._filter(a, this.options.filter));
+        if (this.options.template != null && typeof this.options.template == "string") {
+          i = "", o = "", l = "", v = document.createElement("div");
+          for (m = 0, b = a.length; m < b; m++) s = a[m], u = s.images[this.options.resolution].url, this.options.useHttp || (u = u.replace("http://", "//")), o = this._makeTemplate(this.options.template, {
+            model: s,
+            id: s.id,
+            link: s.link,
+            image: u,
+            caption: this._getObjectProperty(s, "caption.text"),
+            likes: s.likes.count,
+            comments: s.comments.count,
+            location: this._getObjectProperty(s, "location.name")
+          }), i += o;
+          v.innerHTML = i, S = [].slice.call(v.childNodes);
+          for (g = 0, w = S.length; g < w; g++) h = S[g], n.appendChild(h)
+        } else
+          for (y = 0, E = a.length; y < E; y++) s = a[y], f = document.createElement("img"), u = s.images[this.options.resolution].url, this.options.useHttp || (u = u.replace("http://", "//")), f.src = u, this.options.links === !0 ? (t = document.createElement("a"), t.href = s.link, t.appendChild(f), n.appendChild(t)) : n.appendChild(f);
+        document.getElementById(this.options.target).appendChild(n), r = document.getElementsByTagName("head")[0], r.removeChild(document.getElementById("instafeed-fetcher")), c = "instafeedCache" + this.unique, window[c] = void 0;
+        try {
+          delete window[c]
+        } catch (x) {}
+      }
+      return this.options.after != null && typeof this.options.after == "function" && this.options.after.call(this), !0
+    }, e.prototype._buildUrl = function() {
+      var e, t, n;
+      e = "https://api.instagram.com/v1";
+      switch (this.options.get) {
+        case "popular":
+          t = "media/popular";
+          break;
+        case "tagged":
+          if (typeof this.options.tagName != "string") throw new Error("No tag name specified. Use the 'tagName' option.");
+          t = "tags/" + this.options.tagName + "/media/recent";
+          break;
+        case "location":
+          if (typeof this.options.locationId != "number") throw new Error("No location specified. Use the 'locationId' option.");
+          t = "locations/" + this.options.locationId + "/media/recent";
+          break;
+        case "user":
+          if (typeof this.options.userId != "number") throw new Error("No user specified. Use the 'userId' option.");
+          if (typeof this.options.accessToken != "string") throw new Error("No access token. Use the 'accessToken' option.");
+          t = "users/" + this.options.userId + "/media/recent";
+          break;
+        default:
+          throw new Error("Invalid option for get: '" + this.options.get + "'.")
+      }
+      return n = "" + e + "/" + t, this.options.accessToken != null ? n += "?access_token=" + this.options.accessToken : n += "?client_id=" + this.options.clientId, this.options.limit != null && (n += "&count=" + this.options.limit), n += "&callback=instafeedCache" + this.unique + ".parse", n
+    }, e.prototype._genKey = function() {
+      var e;
+      return e = function() {
+        return ((1 + Math.random()) * 65536 | 0).toString(16).substring(1)
+      }, "" + e() + e() + e() + e()
+    }, e.prototype._makeTemplate = function(e, t) {
+      var n, r, i, s, o;
+      r = /(?:\{{2})([\w\[\]\.]+)(?:\}{2})/, n = e;
+      while (r.test(n)) i = n.match(r)[1], s = (o = this._getObjectProperty(t, i)) != null ? o : "", n = n.replace(r, "" + s);
+      return n
+    }, e.prototype._getObjectProperty = function(e, t) {
+      var n, r;
+      t = t.replace(/\[(\w+)\]/g, ".$1"), r = t.split(".");
+      while (r.length) {
+        n = r.shift();
+        if (!(e != null && n in e)) return null;
+        e = e[n]
+      }
+      return e
+    }, e.prototype._sortBy = function(e, t, n) {
+      var r;
+      return r = function(e, r) {
+        var i, s;
+        return i = this._getObjectProperty(e, t), s = this._getObjectProperty(r, t), n ? i > s ? 1 : -1 : i < s ? 1 : -1
+      }, e.sort(r.bind(this)), e
+    }, e.prototype._filter = function(e, t) {
+      var n, r, i, s, o;
+      n = [], i = function(e) {
+        if (t(e)) return n.push(e)
+      };
+      for (s = 0, o = e.length; s < o; s++) r = e[s], i(r);
+      return n
+    }, e
+  }(), t = typeof exports != "undefined" && exports !== null ? exports : window, t.Instafeed = e
+}).call(this);
+
+
+
+
+    // var lat = results[0].geometry.location.lat();
+    //  var long = results[0].geometry.location.lng();
+        
+var thisLocationID;
+        
+    function findLoc() {
+      var address = (document.getElementById('my-address'));
+      var autocomplete = new google.maps.places.Autocomplete(address);
+      autocomplete.setTypes(['geocode']);
+       google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+               return;
+          }
+  
+       var address = '';
+       if (place.address_components) {
+           address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+               (place.address_components[1] && place.address_components[1].short_name || ''),
+               (place.address_components[2] && place.address_components[2].short_name || '')
+               ].join(' ');
+         }
+    });
+} //end of findLoc
+
+
+function codeAddress() {
+    geocoder = new google.maps.Geocoder();
+    var address = document.getElementById("my-address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+
+     // alert("Latitude: "+results[0].geometry.location.lat());
+      //alert("Longitude: "+results[0].geometry.location.lng());
+      
+      lat = results[0].geometry.location.lat();
+      long = results[0].geometry.location.lng();
+      
+    console.log(lat);
+    console.log(long);
+    
+      
+      $.ajax({
+  		  url : 'https://api.instagram.com/v1/locations/search?lat=' + lat+ '&lng=' + long + '&access_token=1410992284.7ca8963.f603e277548348f1bf0fa24082e376ca',//sends url
+  		  dataType : 'jsonp', //asks for this data type, is it a meta data?
+  		  type: 'GET',
+  		  success : function(obj){ //if it works do this with the response
+  			//get location ids put it in an array, then print the array of images
+  			for (i=0; i<obj.data.length; i++) {
+  			  
+					thisLocationID = +obj.data[i].id;
+          console.log(thisLocationID);
+          
+       var feed  = new Instafeed({
+    	//only show tagged images
+    	get: "location", 
+    	//latitude: "lat",
+    	//longitude: "long",
+    	locationId: thisLocationID,
+    	//tagName: nameinput,
+    	//limit is number of pics visible
+    	limit: "50",
+    	//links to instagram page set to false, default is true
+    	//links: "false",
+    	//puts the most liked photos first
+    	sortBy: "most-liked",
+    	clientId: "7ca8963fd1414b218beed9b04e2a5cca" //my client id
+    });
+  			
+  			feed.run();
+  		
+  			
+  		              //	loadLocation(response);
+  			} // end of for loop
+      //feed.run();
+  	    } // end of for loop
+      });//end of ajax
+  
+
+    
+   // instaloc(lat, long);
+      } 
+
+      else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+      
+      
+
+    });
+    
+
+  }
+google.maps.event.addDomListener(window, 'load', findLoc);
+
+
+    
+
+
+// var nameinput;
+
+// // http://localhost/#access_token=1410992284.7ca8963.f603e277548348f1bf0fa24082e376ca
+
+
+
+//   function myFunction() {
+//       var nameinput = document.getElementById("my-address").value;
+//       //alert(nameinput);
+//       //console.log(nameinput.value);
+  
+//   // window.location.reload(true);
+
+
+
+// var feed  = new Instafeed({
+// 	//only show tagged images
+// 	get: "tagged", 
+// 	//locationId: 
+// 	tagName: nameinput,
+// 	//limit is number of pics visible
+// 	limit: "50",
+// 	//links to instagram page set to false, default is true
+// 	//links: "false",
+// 	//puts the most liked photos first
+// 	sortBy: "most-liked",
+// 	clientId: "7ca8963fd1414b218beed9b04e2a5cca" //my client id
+// });
+
+// feed.run();
+// instaloc();
+
+// $('#submit').click(function(){
+// 	var search_term ={
+// 		q:'bowery'
+// 	};
+// 	search(search_term);
+
+// });
+
+// // function instaloc(lat, long){
+// // //https://api.instagram.com/v1/media/search?lat=50.85396&lng=4.34150&distance=2000&access_token=ACCESS-TOKEN
+  
+// //   console.log('lat is ' + lat);
+// //   console.log('long is ' + long);
+
+// // 	$.ajax({
+// // 		url: 'https://api.instagram.com/v1/media/search?lat=' + lat +'&lng=' + long+ '&distance=2000&access_token=1410992284.7ca8963.f603e277548348f1bf0fa24082e376ca',
+// // 		dataType: 'jsonp',
+// // 		success: function(data){
+// // 			console.log(data);
+
+// // 		// 	for(item in data['results']){
+// // 		// 		$('#tweets').append(
+// // 		// 			'<li>' + data['results'][item]['text'] + '</li>');
+// // 			}
+// // 		}
+
+// // 	});
+
+// }
+
+
+
+
+// //have the page refresh every couple of seconds
+// //displays new content keeps viewer engaged
+
+// // var time = new Date().getTime();
+
+// //     function refresh() {
+// //         if(new Date().getTime() - time >= 10000) 
+// //             window.location.reload(true);
+// //         else 
+// //             setTimeout(refresh, 1000);
+// //     }
+
+// //     setTimeout(refresh, 1000);
+
+
+
+
+
+
+
+
+
+// var init = function(){
+// 	loadImages();
+// 	loadText();
+
+// }
+
+// $(document).ready(function(){
+// 	init();
+// })

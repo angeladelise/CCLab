@@ -8,14 +8,14 @@ void setup() {
   pinMode(switchPin, INPUT);
   pinMode(led, INPUT);
   digitalWrite(switchPin, HIGH);
-  Serial.begin(9600);
+  Serial.begin(230400);
 }
  
 void loop() {
-  int xPos = map(analogRead(xPin), 0, 1023, -4, 5); 
+  int xPos = map(analogRead(xPin), 0, 1023, -9, 10); 
   Serial.print(xPos);
   Serial.print("\n");
- int yPos = map(analogRead(yPin), 0, 1023, -4, 5); 
+ int yPos = map(analogRead(yPin), 0, 1023, -9, 10); 
  Serial.print(yPos);
   Serial.print("\n");
   delay(500);

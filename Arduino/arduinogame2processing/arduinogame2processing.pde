@@ -19,6 +19,27 @@ BlueCircle b2;
 BlueCircle b3;
 BlueCircle b4;
 BlueCircle b5;
+roadLines line1;
+roadLines line1_2; // all of the lines that are in the first column
+roadLines line1_3;
+roadLines line1_4;
+roadLines line2;
+roadLines line2_2; // all of the lines that are in the first column
+roadLines line2_3;
+roadLines line2_4;
+roadLines line3;
+roadLines line3_2; // all of the lines that are in the first column
+roadLines line3_3;
+roadLines line3_4;
+roadLines line4;
+roadLines line4_2; // all of the lines that are in the first column
+roadLines line4_3;
+roadLines line4_4;
+roadLines line5;
+roadLines line5_2; // all of the lines that are in the first column
+roadLines line5_3;
+roadLines line5_4;
+
 int state;
 int lives;
 int score;
@@ -28,9 +49,12 @@ float yPos = 0;
 String xIn;
 String yIn;
 
+boolean moveLeft;
+boolean moveRight;
+
 void setup(){
-  size(700,500);
-  port = new Serial(this, "/dev/cu.usbmodem1421", 9600);
+  size(1000,750);
+  port = new Serial(this, "/dev/cu.usbmodem1421", 230400);
   port.bufferUntil('\n');
   
   player = new Player(400,400);
@@ -45,12 +69,36 @@ void setup(){
   c9 = new Circle (300, -40, 60, .98);
   t1 = new Triangle (300,-90, .6);
   t2 = new Triangle (100,-480, .8);
-  t3 = new Triangle (450,-750, .85);
+  t3 = new Triangle (450,-750, 1);
   b1 = new BlueCircle (580, -250, 30, .83);
   b2 = new BlueCircle (110, -80, 30, .82);
   b3 = new BlueCircle (200, -60, 20, .98);
   b4 = new BlueCircle (340, -150, 35, .83);
   b5 = new BlueCircle (630, -280, 25, .82);
+  line1 = new roadLines(width/6, 0, 1);
+  line1_2 = new roadLines(width/6, 200, 1);
+  line1_3 = new roadLines(width/6, 400, 1);
+  line1_4 = new roadLines(width/6, 600, 1);
+
+  line2 = new roadLines(width/3, 0, 1);
+  line2_2 = new roadLines(width/3, 200, 1);
+  line2_3 = new roadLines(width/3, 400, 1);
+  line2_4 = new roadLines(width/3, 600, 1);
+  
+  line3 = new roadLines(3*width/6, 0, 1);
+  line3_2 = new roadLines(width/2, 200, 1);
+  line3_3 = new roadLines(width/2, 400, 1);
+  line3_4 = new roadLines(width/2, 600, 1);
+  
+  line4 = new roadLines(4*width/6, 0, 1);
+  line4_2 = new roadLines(2*width/3, 200, 1);
+  line4_3 = new roadLines(2*width/3, 400, 1);
+  line4_4 = new roadLines(2*width/3, 600, 1);
+  
+  line5 = new roadLines(5*width/6, 0, 1);
+  line5_2 = new roadLines(5*width/6, 200, 1);
+  line5_3 = new roadLines(5*width/6, 400, 1);
+  line5_4 = new roadLines(5*width/6, 600, 1);
 
   state = 1;
   lives = 3;
@@ -61,7 +109,7 @@ void draw(){
   
   //intro screen
   if (state == 1){
-    background(0);
+    background(100); //gray background
     fill(255);
     textSize(30);
     text("Welcome!", width/3+30, height/3);
@@ -86,8 +134,7 @@ void draw(){
   
   if (state == 2){
   fill(0, 10);
-  background(0);
-  player.draw();
+  background(100); //gray background
   c1.draw();
   c2.draw();
   c3.draw();
@@ -106,13 +153,39 @@ void draw(){
   b2.draw();
   b3.draw();
   
+  line1.draw();
+  line1_2.draw();
+  line1_3.draw();
+  line1_4.draw();
+  line2.draw();
+  line2_2.draw();
+  line2_3.draw();
+  line2_4.draw();
+  line3.draw();
+  line3_2.draw();
+  line3_3.draw();
+  line3_4.draw();
+  line4.draw();
+  line4_2.draw();
+  line4_3.draw();
+  line4_4.draw();
+  line5.draw();
+  line5_2.draw();
+  line5_3.draw();
+  line5_4.draw();
+
+  
+  player.draw();
+
+  
   fill(255);
   text("Lives: " + lives, width -100, 30);
   text("Score: " + score, width -250, 30);
   
    if(port.available()>0){
-  xIn = port.readStringUntil('\n');
-  yIn = port.readStringUntil('\n');
+    xIn = port.readStringUntil('\n');
+    yIn = port.readStringUntil('\n');
+   
     if(xIn != null && yIn != null){
       xPos = float(xIn);
       yPos = float(yIn);
@@ -120,16 +193,29 @@ void draw(){
       println(yIn);  
       
       if(xPos> 0){
-        player.left();
+        player.right();
+        moveRight = true;
+        moveLeft = false;
       }
       
       if(xPos < 0){
-        player.right();
-      }
+        player.left();
+        moveLeft = true;
+        moveRight = false;
+       }
+     }
+
+    } // end of port loop
+    
+    
+     if(moveLeft == true){
+      player.moveLeft(); 
+    }
+     if(moveRight == true){
+      player.moveRight(); 
     }
 
-  }
-  
+
   //if (keyPressed){
   //  if (key == CODED){
   //   if(keyCode == LEFT){
@@ -274,9 +360,9 @@ void draw(){
    background(255,0,0);
    fill(255);
    textSize(50);
-    text("You Lose!", width/2-120, height/2);
+    text("You Lose!", width/2-100, height/2);
    textSize(20);
-    text("Click to replay!", width/3+40, height*2/3);
+    text("Click to replay!", width/2-30, height*2/3);
     
     if (mousePressed){
       state =1;

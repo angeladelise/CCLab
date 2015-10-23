@@ -52,29 +52,15 @@ String yIn;
 boolean moveLeft;
 boolean moveRight;
 
+PImage title;
+PImage lose;
+
 void setup(){
   size(1000,750);
   port = new Serial(this, "/dev/cu.usbmodem1421", 230400);
   port.bufferUntil('\n');
   
-  player = new Player(400,400);
-  c1 = new Circle (20, -30, 40, .73);
-  c2 = new Circle (60, -70, 50, .7);
-  c3 = new Circle (150, -150, 20, .99);
-  c4 = new Circle (230, -280, 30, .98);
-  c5 = new Circle (460, -300, 40, .86);
-  c6 = new Circle (600, -30, 60, .92);
-  c7 = new Circle (680, -450, 30, .83);
-  c8 = new Circle (510, -100, 40, .82);
-  c9 = new Circle (300, -40, 60, .98);
-  t1 = new Triangle (300,-90, .6);
-  t2 = new Triangle (100,-480, .8);
-  t3 = new Triangle (450,-750, 1);
-  b1 = new BlueCircle (580, -250, 30, .83);
-  b2 = new BlueCircle (110, -80, 30, .82);
-  b3 = new BlueCircle (200, -60, 20, .98);
-  b4 = new BlueCircle (340, -150, 35, .83);
-  b5 = new BlueCircle (630, -280, 25, .82);
+
   line1 = new roadLines(width/6, 0, 1);
   line1_2 = new roadLines(width/6, 200, 1);
   line1_3 = new roadLines(width/6, 400, 1);
@@ -99,10 +85,32 @@ void setup(){
   line5_2 = new roadLines(5*width/6, 200, 1);
   line5_3 = new roadLines(5*width/6, 400, 1);
   line5_4 = new roadLines(5*width/6, 600, 1);
+  
+  player = new Player(400,400);
+  c1 = new Circle (120, -30, 40, .73);
+  c2 = new Circle (560, -170, 50, .7);
+  c3 = new Circle (850, -150, 20, .99);
+  c4 = new Circle (230, -280, 30, .98);
+  c5 = new Circle (460, -300, 40, .86);
+  c6 = new Circle (600, -30, 60, .92);
+  c7 = new Circle (680, -450, 30, .83);
+  c8 = new Circle (510, -100, 40, .82);
+  c9 = new Circle (300, -40, 60, .98);
+  t1 = new Triangle (300,-90, .6);
+  t2 = new Triangle (100,-480, .8);
+  t3 = new Triangle (450,-750, 1);
+  b1 = new BlueCircle (580, -250, 30, .83);
+  b2 = new BlueCircle (110, -80, 30, .82);
+  b3 = new BlueCircle (200, -60, 20, .98);
+  b4 = new BlueCircle (340, -150, 35, .83);
+  b5 = new BlueCircle (630, -280, 25, .82);
 
   state = 1;
   lives = 3;
   score = 0;
+  
+  title = loadImage("icyroads.png");
+  lose = loadImage("lose.png");
 }
 
 void draw(){
@@ -119,12 +127,13 @@ void draw(){
     fill(90,220,255);
     text("Catch the blue circles to increase your score!", 120, height/2+30);
     fill(0,255,0);
-    text("Catch the green triangles to get more lives", 120, height/2+60);
+    text("Catch the green triangles to get more lives", 120, height/2+55);
     
     fill(255,130,50);
     textSize(20);
     text("Click to play!", width/3+40, height/2+100);
     
+    image(title, 0,0);
     
     if (mousePressed){
      state = 2; //go to next state 
@@ -140,18 +149,18 @@ void draw(){
   c3.draw();
   c4.draw();
   c5.draw();
-  c6.draw();
-  c7.draw();
-  c8.draw();
-  c9.draw();
+//  c6.draw();
+ // c7.draw();
+ // c8.draw();
+ // c9.draw();
   
   t1.draw();
-  t2.draw();
-  t3.draw();
+//  t2.draw();
+//  t3.draw();
   
   b1.draw();
   b2.draw();
-  b3.draw();
+//  b3.draw();
   
   line1.draw();
   line1_2.draw();
@@ -228,28 +237,28 @@ void draw(){
   //  }
   //}
   
-   if(dist(c1.xPos, c1.yPos, player.xPos, player.yPos) < c1.size/2+25 )
+   if(dist(c1.xPos, c1.yPos, player.xPos, player.yPos) < c1.size/2+50 )
    {
   lives = lives -1;
   c1.yPos = random(-100,-50);
     }
     
   
-   if(dist(c2.xPos, c2.yPos, player.xPos, player.yPos) < c2.size/2+25 )
+   if(dist(c2.xPos, c2.yPos, player.xPos, player.yPos) < c2.size/2+50 )
    {
   lives = lives -1;
     c2.yPos = random(-100,-50);
     }
     
   
-   if(dist(c3.xPos, c3.yPos, player.xPos, player.yPos) < c3.size/2+25 )
+   if(dist(c3.xPos, c3.yPos, player.xPos, player.yPos) < c3.size/2+50 )
    {
   lives = lives -1;
     c3.yPos = random(-100,-50);
     }
     
   
-   if(dist(c4.xPos, c4.yPos, player.xPos, player.yPos) < c4.size/2+25 )
+   if(dist(c4.xPos, c4.yPos, player.xPos, player.yPos) < c4.size/2+50 )
    {
   lives = lives -1;
     c4.yPos = random(-100,-50);
@@ -257,34 +266,34 @@ void draw(){
     
     
   
-   if(dist(c5.xPos, c5.yPos, player.xPos, player.yPos) < c5.size/2+25 )
+   if(dist(c5.xPos, c5.yPos, player.xPos, player.yPos) < c5.size/2+50 )
    {
   lives = lives -1;
     c5.yPos = random(-100,-50);
     }
     
 
-   if(dist(c6.xPos, c6.yPos, player.xPos, player.yPos) < c6.size/2+25 )
+   if(dist(c6.xPos, c6.yPos, player.xPos, player.yPos) < c6.size/2+50 )
    {
   lives = lives -1;
     c6.yPos = random(-100,-50);
     }
   
-   if(dist(c7.xPos, c7.yPos, player.xPos, player.yPos) < c7.size/2 +25)
+   if(dist(c7.xPos, c7.yPos, player.xPos, player.yPos) < c7.size/2 +50)
    {
   lives = lives -1;
     c7.yPos = random(-100,-50);
     }
 
   
-   if(dist(c8.xPos, c8.yPos, player.xPos, player.yPos) < c8.size/2 +25)
+   if(dist(c8.xPos, c8.yPos, player.xPos, player.yPos) < c8.size/2 +50)
    {
   lives = lives -1;
     c8.yPos = random(-100,-50);
     }
     
   
-   if(dist(c9.xPos, c9.yPos, player.xPos, player.yPos) < c9.size/2 +25)
+   if(dist(c9.xPos, c9.yPos, player.xPos, player.yPos) < c9.size/2 +50)
    {
   lives = lives -1;
     c9.yPos = random(-100,-50);
@@ -312,28 +321,28 @@ void draw(){
     }
     
     
-    if(dist(b1.xPos, b1.yPos, player.xPos, player.yPos) < b1.size/2+25 )
+    if(dist(b1.xPos, b1.yPos, player.xPos, player.yPos) < b1.size/2+50 )
    {
     score = score +10;
   b1.yPos = random(-100,-50);
     }
     
   
-   if(dist(b2.xPos, b2.yPos, player.xPos, player.yPos) < b2.size/2+25 )
+   if(dist(b2.xPos, b2.yPos, player.xPos, player.yPos) < b2.size/2+50 )
    {
   score = score +10;
     b2.yPos = random(-100,-50);
     }
     
   
-   if(dist(b3.xPos, b3.yPos, player.xPos, player.yPos) < b3.size/2+25 )
+   if(dist(b3.xPos, b3.yPos, player.xPos, player.yPos) < b3.size/2+50 )
    {
     score = score +10;
     b3.yPos = random(-100,-50);
     }
     
   
-   if(dist(b4.xPos, b4.yPos, player.xPos, player.yPos) < b4.size/2+25 )
+   if(dist(b4.xPos, b4.yPos, player.xPos, player.yPos) < b4.size/2+50 )
    {
     score = score +10;
     b4.yPos = random(-100,-50);
@@ -341,7 +350,7 @@ void draw(){
     
     
   
-   if(dist(b5.xPos, b5.yPos, player.xPos, player.yPos) < b5.size/2+25 )
+   if(dist(b5.xPos, b5.yPos, player.xPos, player.yPos) < b5.size/2+50 )
    {
   score = score +10;
     b5.yPos = random(-100,-50);
@@ -363,6 +372,8 @@ void draw(){
     text("You Lose!", width/2-100, height/2);
    textSize(20);
     text("Click to replay!", width/2-30, height*2/3);
+    
+    image(lose, 0, 0);
     
     if (mousePressed){
       state =1;

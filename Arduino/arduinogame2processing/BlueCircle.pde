@@ -23,9 +23,15 @@ class BlueCircle{
     
     //to loop back up
     if(yPos > height +size){
-        yPos = random(-200,-50);
+        yPos = random(-400,-50);
         xPos = random(0, width);
-    speed = speed +.2; //increases in speed 
+        
+          if(speed < 5){
+        speed = speed +.2; //increases in speed 
+        }
+        else{
+        speed = 5;
+        }
     }
   }
   

@@ -23,10 +23,17 @@
     
     //to loop back up
     if(yPos > height +50){
-        yPos = random(-1000,-100);
+        yPos = random(-1000,-500);
         xPos = random(0, width);
-    speed = speed +.2; //increases in speed 
+        
+        if(speed < 5){
+        speed = speed +.2; //increases in speed 
+        }
+        else{
+        speed = 5;
+        }
       }
-  }
+    }
   
+
 }

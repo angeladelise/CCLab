@@ -54,63 +54,90 @@ boolean moveRight;
 
 PImage title;
 PImage lose;
+PImage win;
+
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+
+AudioPlayer music;
+
+AudioPlayer break1;
+AudioPlayer break2;
 
 void setup(){
   size(1000,750);
-  port = new Serial(this, "/dev/cu.usbmodem1421", 230400);
+  port = new Serial(this, "/dev/cu.usbmodem1421", 250000);
   port.bufferUntil('\n');
   
 
-  line1 = new roadLines(width/6, 0, 1);
-  line1_2 = new roadLines(width/6, 200, 1);
-  line1_3 = new roadLines(width/6, 400, 1);
-  line1_4 = new roadLines(width/6, 600, 1);
+  line1 = new roadLines(width/6, 0, 1.5);
+  line1_2 = new roadLines(width/6, 200, 1.5);
+  line1_3 = new roadLines(width/6, 400, 1.5);
+  line1_4 = new roadLines(width/6, 600, 1.5);
 
-  line2 = new roadLines(width/3, 0, 1);
-  line2_2 = new roadLines(width/3, 200, 1);
-  line2_3 = new roadLines(width/3, 400, 1);
-  line2_4 = new roadLines(width/3, 600, 1);
+  line2 = new roadLines(width/3, 0, 1.5);
+  line2_2 = new roadLines(width/3, 200, 1.5);
+  line2_3 = new roadLines(width/3, 400, 1.5);
+  line2_4 = new roadLines(width/3, 600, 1.5);
   
-  line3 = new roadLines(3*width/6, 0, 1);
-  line3_2 = new roadLines(width/2, 200, 1);
-  line3_3 = new roadLines(width/2, 400, 1);
-  line3_4 = new roadLines(width/2, 600, 1);
+  line3 = new roadLines(3*width/6, 0, 1.5);
+  line3_2 = new roadLines(width/2, 200, 1.5);
+  line3_3 = new roadLines(width/2, 400, 1.5);
+  line3_4 = new roadLines(width/2, 600, 1.5);
   
-  line4 = new roadLines(4*width/6, 0, 1);
-  line4_2 = new roadLines(2*width/3, 200, 1);
-  line4_3 = new roadLines(2*width/3, 400, 1);
-  line4_4 = new roadLines(2*width/3, 600, 1);
+  line4 = new roadLines(4*width/6, 0, 1.5);
+  line4_2 = new roadLines(2*width/3, 200, 1.5);
+  line4_3 = new roadLines(2*width/3, 400, 1.5);
+  line4_4 = new roadLines(2*width/3, 600, 1.5);
   
-  line5 = new roadLines(5*width/6, 0, 1);
-  line5_2 = new roadLines(5*width/6, 200, 1);
-  line5_3 = new roadLines(5*width/6, 400, 1);
-  line5_4 = new roadLines(5*width/6, 600, 1);
+  line5 = new roadLines(5*width/6, 0, 1.5);
+  line5_2 = new roadLines(5*width/6, 200, 1.5);
+  line5_3 = new roadLines(5*width/6, 400, 1.5);
+  line5_4 = new roadLines(5*width/6, 600, 1.5);
   
   player = new Player(400,400);
-  c1 = new Circle (120, -30, 40, .73);
-  c2 = new Circle (560, -170, 50, .7);
-  c3 = new Circle (850, -150, 20, .99);
-  c4 = new Circle (230, -280, 30, .98);
-  c5 = new Circle (460, -300, 40, .86);
-  c6 = new Circle (600, -30, 60, .92);
-  c7 = new Circle (680, -450, 30, .83);
-  c8 = new Circle (510, -100, 40, .82);
-  c9 = new Circle (300, -40, 60, .98);
-  t1 = new Triangle (300,-90, .6);
-  t2 = new Triangle (100,-480, .8);
-  t3 = new Triangle (450,-750, 1);
-  b1 = new BlueCircle (580, -250, 30, .83);
-  b2 = new BlueCircle (110, -80, 30, .82);
-  b3 = new BlueCircle (200, -60, 20, .98);
-  b4 = new BlueCircle (340, -150, 35, .83);
-  b5 = new BlueCircle (630, -280, 25, .82);
+  c1 = new Circle (120, -30, 40, 1.5);
+  c2 = new Circle (560, -170, 50, 1.5);
+  c3 = new Circle (850, -150, 20, 1.5);
+  c4 = new Circle (230, -280, 30, 1.5);
+  c5 = new Circle (460, -300, 40, 1.5);
+  c6 = new Circle (600, -30, 60, 1.5);
+  c7 = new Circle (680, -450, 30, 1.5);
+  c8 = new Circle (510, -100, 40, 1.5);
+  c9 = new Circle (300, -40, 60, 1.5);
+  t1 = new Triangle (300,-90, 1.5);
+  t2 = new Triangle (100,-480, 1.5);
+  t3 = new Triangle (450,-750, 1.5);
+  b1 = new BlueCircle (580, -250, 30, 1.5);
+  b2 = new BlueCircle (110, -80, 30, 1.5);
+  b3 = new BlueCircle (200, -60, 20, 1.5);
+  b4 = new BlueCircle (340, -150, 35, 1.5);
+  b5 = new BlueCircle (630, -280, 25, 1.5);
 
   state = 1;
-  lives = 3;
-  score = 0;
+  //lives = 3;
+  //score = 0;
   
   title = loadImage("icyroads.png");
-  lose = loadImage("lose.png");
+  lose = loadImage("sign.png");
+  win = loadImage("win.png");
+  
+  minim = new Minim (this);
+  music = minim.loadFile("Transportation.mp3");
+  //music.loop();
+  
+  minim = new Minim (this);
+  break1 = minim.loadFile("Break1.wav");
+  //powerup.loop();
+  
+  minim = new Minim (this);
+  break2 = minim.loadFile("Break2.wav");
 }
 
 void draw(){
@@ -135,32 +162,88 @@ void draw(){
     
     image(title, 0,0);
     
+    lives = 3;
+    score = 0;
+    music.play();
+    
+    //every 3minutes replay the song
+    if(millis() % 190000 == 0){
+      music.rewind();
+    music.play();
+    }
+    
+    //randomize y position every time you replay
+    c1.yPos = random(0, -400);
+    c2.yPos = random(-150, -400);
+    c3.yPos = random(-200, -400);
+    c4.yPos = random(-450, -600);
+    c5.yPos = random(-200, -600);
+
+    t1.yPos = random(-500, -1000);
+
+    b1.yPos = random(-100, -400);
+    b2.yPos = random(-300, -500);
+    
+    c1.speed = 2.2;
+    c2.speed = 2.2;
+    c3.speed = 2.2;
+    c4.speed = 2.2;
+    c5.speed = 2.2;
+    
+    b1.speed = 2.2;
+    b2.speed = 2.2;
+
+    t1.speed = 2.2;
+    
+    line1.speed = 2.2;
+    line1_2.speed = 2.2;
+    line1_3.speed = 2.2;
+    line1_4.speed = 2.2;
+    line2.speed = 2.2;
+    line2_2.speed = 2.2;
+    line2_3.speed = 2.2;
+    line2_4.speed = 2.2;
+    line3.speed = 2.2;
+    line3_2.speed = 2.2;
+    line3_3.speed = 2.2;
+    line3_4.speed = 2.2;
+    line4.speed = 2.2;
+    line4_2.speed = 2.2;
+    line4_3.speed = 2.2;
+    line4_4.speed = 2.2;
+    line5.speed = 2.2;
+    line5_2.speed = 2.2;
+    line5_3.speed = 2.2;
+    line5_4.speed = 2.2;
+      
     if (mousePressed){
      state = 2; //go to next state 
     }
     
   }
   
+  
   if (state == 2){
   fill(0, 10);
   background(100); //gray background
-  c1.draw();
-  c2.draw();
-  c3.draw();
-  c4.draw();
-  c5.draw();
-//  c6.draw();
- // c7.draw();
- // c8.draw();
- // c9.draw();
   
-  t1.draw();
-//  t2.draw();
-//  t3.draw();
+     //every 3minutes replay the song
+    if(millis() % 190000 == 0){
+    music.rewind();
+    music.play();
+    }
+  //music.play();
+
   
-  b1.draw();
-  b2.draw();
-//  b3.draw();
+  //replay song
+  
+ // println(music.isPlaying());
+  
+  //if(music.isPlaying() == false){
+  //  //music.pause();
+  //  music.rewind();
+  //  music.play();
+  //}
   
   line1.draw();
   line1_2.draw();
@@ -182,6 +265,25 @@ void draw(){
   line5_2.draw();
   line5_3.draw();
   line5_4.draw();
+  
+  c1.draw();
+  c2.draw();
+  c3.draw();
+  c4.draw();
+  c5.draw();
+//  c6.draw();
+ // c7.draw();
+ // c8.draw();
+ // c9.draw();
+  
+  t1.draw();
+//  t2.draw();
+//  t3.draw();
+  
+  b1.draw();
+  b2.draw();
+//  b3.draw();
+
 
   
   player.draw();
@@ -237,129 +339,155 @@ void draw(){
   //  }
   //}
   
-   if(dist(c1.xPos, c1.yPos, player.xPos, player.yPos) < c1.size/2+50 )
+  //to test collisions
+  
+  //line(c1.xPos, c1.yPos, player.xPos, player.yPos+40);
+  //ellipse(player.xPos+10, player.yPos+40, c1.size/2+70, c1.size/2+70);
+  
+   if(dist(c1.xPos, c1.yPos, player.xPos+10, player.yPos+40) < c1.size/2+70 )
    {
   lives = lives -1;
   c1.yPos = random(-100,-50);
+  c1.xPos = random(0, width);
     }
     
   
-   if(dist(c2.xPos, c2.yPos, player.xPos, player.yPos) < c2.size/2+50 )
+   if(dist(c2.xPos, c2.yPos, player.xPos+10, player.yPos+40) < c2.size/2+70 )
    {
   lives = lives -1;
     c2.yPos = random(-100,-50);
+     c2.xPos = random(0, width);
     }
     
   
-   if(dist(c3.xPos, c3.yPos, player.xPos, player.yPos) < c3.size/2+50 )
+   if(dist(c3.xPos, c3.yPos, player.xPos+10, player.yPos+40) < c3.size/2+70 )
    {
   lives = lives -1;
     c3.yPos = random(-100,-50);
+     c3.xPos = random(0, width);
     }
     
   
-   if(dist(c4.xPos, c4.yPos, player.xPos, player.yPos) < c4.size/2+50 )
+   if(dist(c4.xPos, c4.yPos, player.xPos+10, player.yPos+40) < c4.size/2+70 )
    {
   lives = lives -1;
     c4.yPos = random(-100,-50);
+     c4.xPos = random(0, width);
     }
     
     
   
-   if(dist(c5.xPos, c5.yPos, player.xPos, player.yPos) < c5.size/2+50 )
+   if(dist(c5.xPos, c5.yPos, player.xPos+10, player.yPos+40) < c5.size/2+70 )
    {
   lives = lives -1;
     c5.yPos = random(-100,-50);
+     c5.xPos = random(0, width);
     }
     
 
-   if(dist(c6.xPos, c6.yPos, player.xPos, player.yPos) < c6.size/2+50 )
+   if(dist(c6.xPos, c6.yPos, player.xPos+10, player.yPos+40) < c6.size/2+70 )
    {
   lives = lives -1;
     c6.yPos = random(-100,-50);
+     c6.xPos = random(0, width);
     }
   
-   if(dist(c7.xPos, c7.yPos, player.xPos, player.yPos) < c7.size/2 +50)
+   if(dist(c7.xPos, c7.yPos, player.xPos+10, player.yPos+40) < c7.size/2 +70)
    {
   lives = lives -1;
     c7.yPos = random(-100,-50);
+     c7.xPos = random(0, width);
     }
 
   
-   if(dist(c8.xPos, c8.yPos, player.xPos, player.yPos) < c8.size/2 +50)
+   if(dist(c8.xPos, c8.yPos, player.xPos+10, player.yPos+40) < c8.size/2 +70)
    {
   lives = lives -1;
     c8.yPos = random(-100,-50);
+     c8.xPos = random(0, width);
     }
     
   
-   if(dist(c9.xPos, c9.yPos, player.xPos, player.yPos) < c9.size/2 +50)
+   if(dist(c9.xPos, c9.yPos, player.xPos+10, player.yPos+40) < c9.size/2 +70)
    {
   lives = lives -1;
     c9.yPos = random(-100,-50);
+     c9.xPos = random(0, width);
     }
     
     
-    if(dist(t1.xPos, t1.yPos, player.xPos, player.yPos) < 75 )
+    if(dist(t1.xPos, t1.yPos, player.xPos+10, player.yPos+40) < 25 + 70 )
    {
   lives = lives +1;
   t1.yPos = random(-100,-50);
+   t1.xPos = random(0, width);
     }
     
   
-   if(dist(t2.xPos, t2.yPos, player.xPos, player.yPos) < 75 )
+   if(dist(t2.xPos, t2.yPos, player.xPos+10, player.yPos+40) < 25+ 70 )
    {
   lives = lives +1;
     t2.yPos = random(-100,-50);
+     t2.xPos = random(0, width);
     }
     
   
-   if(dist(t3.xPos, t3.yPos, player.xPos, player.yPos) < 75 )
+   if(dist(t3.xPos, t3.yPos, player.xPos+10, player.yPos+40) < 25 + 70 )
    {
   lives = lives +1;
     t3.yPos = random(-100,-50);
+     t3.xPos = random(0, width);
     }
     
     
-    if(dist(b1.xPos, b1.yPos, player.xPos, player.yPos) < b1.size/2+50 )
+    if(dist(b1.xPos, b1.yPos, player.xPos+10, player.yPos+40) < b1.size/2+70 )
    {
     score = score +10;
   b1.yPos = random(-100,-50);
+   b1.xPos = random(0, width);
     }
     
   
-   if(dist(b2.xPos, b2.yPos, player.xPos, player.yPos) < b2.size/2+50 )
+   if(dist(b2.xPos, b2.yPos, player.xPos+10, player.yPos+40) < b2.size/2+70 )
    {
   score = score +10;
     b2.yPos = random(-100,-50);
+     b2.xPos = random(0, width);
     }
     
   
-   if(dist(b3.xPos, b3.yPos, player.xPos, player.yPos) < b3.size/2+50 )
+   if(dist(b3.xPos, b3.yPos, player.xPos+10, player.yPos+40) < b3.size/2+70 )
    {
     score = score +10;
     b3.yPos = random(-100,-50);
+     b3.xPos = random(0, width);
     }
     
   
-   if(dist(b4.xPos, b4.yPos, player.xPos, player.yPos) < b4.size/2+50 )
+   if(dist(b4.xPos, b4.yPos, player.xPos+10, player.yPos+40) < b4.size/2+70 )
    {
     score = score +10;
     b4.yPos = random(-100,-50);
+     b4.xPos = random(0, width);
     }
     
     
   
-   if(dist(b5.xPos, b5.yPos, player.xPos, player.yPos) < b5.size/2+50 )
+   if(dist(b5.xPos, b5.yPos, player.xPos+10, player.yPos+40) < b5.size/2+70 )
    {
   score = score +10;
     b5.yPos = random(-100,-50);
+     b5.xPos = random(0, width);
     }
     
     
     
     if (lives ==0){
      state = 3; 
+    }
+    
+    if (score == 500){
+     state = 4; 
     }
     
 }
@@ -377,7 +505,32 @@ void draw(){
     
     if (mousePressed){
       state =1;
-      setup();
+     // setup();
+    }
+    
+    //every 3minutes replay the song
+    if(millis() % 190000 == 0){
+       music.rewind();
+      music.play();
+    }
+  }
+  
+    if (state ==4){
+   background(255,0,0);
+   fill(255);
+   textSize(50);
+    text("You Lose!", width/2-100, height/2);
+    
+    image(win, 0, 0);
+    
+    if (mousePressed){
+      state =1;
+    }
+    
+    //every 3minutes replay the song
+    if(millis() % 190000 == 0){
+       music.rewind();
+      music.play();
     }
     
   }

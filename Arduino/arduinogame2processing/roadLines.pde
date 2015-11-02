@@ -19,7 +19,13 @@ class roadLines{
     if(yPos > height + 80){
         yPos = -30;
        // xPos = xPos;
-    speed = speed +.02; //increases in speed 
+            
+        if(speed < 5){
+        speed = speed +.02; //increases in speed 
+        }
+        else{
+        speed = 5;
+        }
     }  
   }
 }

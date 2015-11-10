@@ -31,7 +31,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofSetColor(0);
+    ofSetColor(255);
     myfont.drawString("Let's Draw! Press C, R, or T!", 10, 570);
     
     if (drawCircle == true){

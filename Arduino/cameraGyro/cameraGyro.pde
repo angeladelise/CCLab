@@ -16,12 +16,15 @@ float yaw;
 float pitch;
 float roll;
 
+int count;
+int imageCount;
+
 void setup() {
   port = new Serial(this, "/dev/cu.usbmodem1421", 250000);
   port.bufferUntil('\t');
   
   size(640, 430);
-  frameRate(30);
+  frameRate(120);
   //320 BY 240 is the resolution, 30 fps
   
   cam = new Capture(this, 640, 430, 30);
@@ -70,10 +73,24 @@ void draw() {
     println("roll" + roll);
     
     if(pitch > -10 && pitch < 10){
-      if (roll > 50 && roll < 80){
+      if (roll > 70 && roll < 85){
         fill(255,0,0);
         ellipse(width/2, height/2, 50,50);
+        //will count the number of frames
+        count++;
+        //for every second (120 frames) make an image
+           if(count % 120 == 0){
+             fill(0,0,255);
+             ellipse(width/2, height/2, 50,50);
+             imageCount ++;
+           }
       }
     }
+
+    //print out count and image count on screen
+    textSize(32);
+    text("Count: " + count, 10, 30); 
+    textSize(32);
+    text("Image Count: " + imageCount, 10, 80); 
 
 }

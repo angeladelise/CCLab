@@ -31,7 +31,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    ofColor colorOne(255, 0, 0);
+    ofColor colorOne(186, 61, 52);
     ofColor colorTwo(0, 0, 0);
     
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_CIRCULAR);
@@ -50,7 +50,7 @@ void ofApp::draw(){
       //  ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-3]*500));
 
         
-        ofSetColor(255, 150);
+        ofSetColor(210, 255, 253, 100);
 
         //starts from top left
 //        ofLine(0, 0, fftSmooth[i]*1000, ofGetHeight());
@@ -63,6 +63,7 @@ void ofApp::draw(){
         
        // ofLine(ofGetHeight()/2, ofGetWidth()/2, ofGetHeight()- fftSmooth[i]*500, ofGetWidth()-fftSmooth[i]*150);
         
+        
         //hooked to bottom and moves top right up
         ofLine(ofGetWidth()/2, ofGetHeight(), ofGetWidth()-fftSmooth[i]*500, 0);
         
@@ -74,6 +75,20 @@ void ofApp::draw(){
         
         //hooked to bottom and moves top left up
         ofLine(ofGetWidth()/2, ofGetHeight(), fftSmooth[i]*500, 0);
+        
+        
+        //------MIDDLE OF BOTTOM AREA
+        //hooked to bottom and moves top right up
+        ofLine(ofGetWidth()/2, ofGetHeight()*.75, ofGetWidth()-fftSmooth[i]*500, ofGetWidth()*.75);
+        
+        //hooked to bottom and moves top right down
+        ofLine(ofGetWidth()/2, ofGetHeight()*.75, ofGetWidth()+fftSmooth[i]*500, ofGetWidth()*.75);
+        
+        //hooked to bottom and moves top left down
+        ofLine(ofGetWidth()/2, ofGetHeight()*.75, -(fftSmooth[i]*500), ofGetWidth()*.25);
+        
+        //hooked to bottom and moves top left up
+        ofLine(ofGetWidth()/2, ofGetHeight()*.75, fftSmooth[i]*500, ofGetWidth()*.25);
         
         //-------
         
@@ -88,6 +103,19 @@ void ofApp::draw(){
         
         //hooked to top and moves top left up
         ofLine(ofGetWidth()/2, 0, fftSmooth[i]*500, ofGetHeight());
+        
+        //------- MIDDLE OF TOP AREA
+        //hooked to top and moves top right up
+        ofLine(ofGetWidth()/2, ofGetHeight()*.25, ofGetWidth()-fftSmooth[i]*500, ofGetHeight());
+        
+        //hooked to top and moves top right down
+        ofLine(ofGetWidth()/2, ofGetHeight()*.25, ofGetWidth()+fftSmooth[i]*500, ofGetHeight());
+        
+        //hooked to top and moves top left down
+        ofLine(ofGetWidth()/2, ofGetHeight()*.25, -(fftSmooth[i]*500), ofGetHeight());
+        
+        //hooked to top and moves top left up
+        ofLine(ofGetWidth()/2, ofGetHeight()*.25, fftSmooth[i]*500, ofGetHeight());
         
     }
     

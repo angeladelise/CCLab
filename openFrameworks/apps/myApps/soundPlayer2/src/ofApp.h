@@ -22,5 +22,8 @@ class ofApp : public ofBaseApp{
     ofSoundPlayer beat;
     float * fftSmooth;
     int bands;
-		
+    
+    int state;
+    int timer =0;
+    int seconds =0;
 };

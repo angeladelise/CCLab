@@ -56,7 +56,24 @@ void ofApp::update(){
     //cout << "timer:" << timer <<endl;
     cout << "sec:" << seconds <<endl;
     cout << "state:" << state <<endl;
+    
+    
+    
+    if (state == 1){
+        //for green lines state!
+        int y = ofGetHeight();
+        xPosRight = xPosRight + 3;
+        xPosLeft = xPosLeft - 3;
 
+        xLeft = xLeft -3;
+        xRight = xRight +3;
+
+        yUp = yUp -3;
+        yDown = yDown +3;
+        
+        cout << "yUp:" << yUp <<endl;
+
+    }
 }
 
 //--------------------------------------------------------------
@@ -161,16 +178,27 @@ void ofApp::draw(){
     }//end of state 1
     
     //CIRCLE FOR BEGNINNG!
-    if (state == 1){
+    if (state == 3){
         for (int i =0; i < bands; i ++){
+            
+
+        
+        ofSetColor(137, 43, 219, 20);
+        ofFill();
+        ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-3]*500));
+            
+            
+        ofSetColor(58, 206, 240, 40);
+        ofNoFill();
+        ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-2]*450));
+            
+        ofSetColor(88, 206, 200, 50);
+        ofFill();
+        ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-2]*350));
             
         ofSetColor(130, 80, 240, 60);
         ofFill();
         ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-3]*300));
-        
-        ofSetColor(137, 43, 219, 40);
-        ofFill();
-        ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-3]*500));
             
         ofSetColor(58, 186, 240, 80);
         ofFill();
@@ -204,10 +232,10 @@ void ofApp::draw(){
             ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500), ofGetHeight()/2);
             
             //diagonal lines
-            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*300), ofGetHeight()/2+ (fftSmooth[i]*300));
-            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*300), ofGetHeight()/2- (fftSmooth[i]*300));
-            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*300), ofGetHeight()/2- (fftSmooth[i]*300));
-            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*300), ofGetHeight()/2+ (fftSmooth[i]*300));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*600), ofGetHeight()/2+ (fftSmooth[i]*600));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*600), ofGetHeight()/2- (fftSmooth[i]*600));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*600), ofGetHeight()/2- (fftSmooth[i]*600));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*600), ofGetHeight()/2+ (fftSmooth[i]*600));
             
             ofSetColor(136, 233, 229, 100);
             ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*300), ofGetHeight()/2+ (fftSmooth[i]*300)*.75);
@@ -219,11 +247,31 @@ void ofApp::draw(){
             ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)*.25, ofGetHeight()/2- (fftSmooth[i]*500)*.25);
             ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.25, ofGetHeight()/2+ (fftSmooth[i]*500)*.25);
             ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.25, ofGetHeight()/2- (fftSmooth[i]*500)*.25);
+            
+            
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)*.75, ofGetHeight()/2+ (fftSmooth[i]*500)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)*.75, ofGetHeight()/2- (fftSmooth[i]*500)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.75, ofGetHeight()/2+ (fftSmooth[i]*500)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.75, ofGetHeight()/2- (fftSmooth[i]*500)*.75);
+            
+            //intense lines coming out of sides
+            ofSetColor(118, 177, 242, 60);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2-550, ofGetHeight()/2+ (fftSmooth[i]*500));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+550, ofGetHeight()/2- (fftSmooth[i]*500));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)-550, ofGetHeight()/2);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)+550, ofGetHeight()/2);
+            
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+550, ofGetHeight()/2+ (fftSmooth[i]*500));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2-550, ofGetHeight()/2- (fftSmooth[i]*500));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)+550, ofGetHeight()/2);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)-550, ofGetHeight()/2);
+
+
 
             
         }
         
-        if (seconds == 16){
+        if (seconds == 17){
             //after 40 seconds change the state
             state = 2;
         }
@@ -231,37 +279,68 @@ void ofApp::draw(){
     
     
     //DIAGONAL GREEN LINES
-    if (state == 3){
+    if (state == 1){
         
         for (int i =0; i < bands; i ++){
             
-            
-            ofSetColor(116, 233, 189, 100);
-            
+
+            ofSetColor(116-i*10, 233+i/2, 189+i*10, 80);
+          
             //hooked to bottom and moves top right up
-            ofLine(0, ofGetHeight(), ofGetWidth()-fftSmooth[i]*500, 0);
+            ofLine(0, ofGetHeight()+yDown, ofGetWidth()-fftSmooth[i]*600 + 100, yUp);
             
             //hooked to bottom and moves top right down
-            ofLine(0, ofGetHeight(), ofGetWidth()+fftSmooth[i]*500, 0);
+            ofLine(0, ofGetHeight()+yDown, ofGetWidth()+fftSmooth[i]*600 + 100, yUp);
             
             //hooked to bottom and moves top left down
-            ofLine(ofGetWidth(), ofGetHeight(), -(fftSmooth[i]*500), 0);
+            ofLine(ofGetWidth(), ofGetHeight() + yDown, -(fftSmooth[i]*600), yUp);
             
             //hooked to bottom and moves top left up
-            ofLine(ofGetWidth(), ofGetHeight(), fftSmooth[i]*500, 0);
+            ofLine(ofGetWidth(), ofGetHeight() + yDown, fftSmooth[i]*600, yUp);
             
             
             //hooked to top and moves top right up
-            ofLine(ofGetWidth()/2, 0, ofGetWidth()-fftSmooth[i]*500, ofGetHeight());
+            ofLine(xPosRight, 0, ofGetWidth()-fftSmooth[i]*500 +xLeft, ofGetHeight());
             
             //hooked to top and moves top right down
-            ofLine(ofGetWidth()/2, 0, ofGetWidth()+fftSmooth[i]*500, ofGetHeight());
+            ofLine(xPosRight, 0, ofGetWidth()+fftSmooth[i]*500+ xLeft, ofGetHeight());
             
             //hooked to top and moves top left down
-            ofLine(ofGetWidth()/2, 0, -(fftSmooth[i]*500), ofGetHeight());
+            ofLine(xPosLeft, 0, -(fftSmooth[i]*500) + xRight, ofGetHeight());
             
             //hooked to top and moves top left up
-            ofLine(ofGetWidth()/2, 0, fftSmooth[i]*500, ofGetHeight());
+            ofLine(xPosLeft, 0, fftSmooth[i]*500 + xRight, ofGetHeight());
+            
+            //middle left
+            //hooked to top and moves top right up
+            ofLine(0, ofGetHeight()/2+yDown, ofGetWidth()-fftSmooth[i]*500 +xLeft, ofGetHeight()+yUp);
+            
+            //hooked to top and moves top right down
+            ofLine(0, ofGetHeight()/2+yDown, ofGetWidth()+fftSmooth[i]*500+ xLeft, ofGetHeight()+yUp);
+            
+            //middle right
+            //hooked to top and moves top left down
+            ofLine(ofGetWidth(), ofGetHeight()/2+yDown, -(fftSmooth[i]*500) + xRight, ofGetHeight()+yUp);
+            
+            //hooked to top and moves top left up
+            ofLine(ofGetWidth(), ofGetHeight()/2+yDown, fftSmooth[i]*500 + xRight, ofGetHeight()+yUp);
+            
+            
+            
+//            //hooked to bottom and moves top right up
+//            ofLine(0, 0, ofGetWidth()-fftSmooth[i]*600 + xRight, yDown);
+//            
+//            //hooked to bottom and moves top right down
+//            ofLine(0, 0, ofGetWidth()+fftSmooth[i]*600 + xRight, yDown);
+//            
+//            //hooked to bottom and moves top left down
+//            ofLine(ofGetWidth(), ofGetHeight(), -(fftSmooth[i]*600) + xLeft, yUp);
+//            
+//            //hooked to bottom and moves top left up
+//            ofLine(ofGetWidth(), ofGetHeight(), fftSmooth[i]*600+xLeft, yUp);
+
+
+
             
 //            if (timer == 400){
 //                //after 16 seconds change the state
@@ -272,8 +351,9 @@ void ofApp::draw(){
                 state = 1;
             }
             
+            
         }
-    }//end of state 1
+    }//end of state 3
 
     
 }

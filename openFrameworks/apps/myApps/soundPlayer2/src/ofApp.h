@@ -26,4 +26,19 @@ class ofApp : public ofBaseApp{
     int state;
     int timer =0;
     int seconds =0;
+    
+    //according to which position they are moving!
+    int y;
+    int xPosRight = ofGetWidth()/2;
+    int xPosLeft = ofGetWidth()/2;
+
+    int yPosRight = ofGetHeight();
+    int yPosLeft = 0;
+    
+    int xLeft = 0;
+    int xRight =0;
+    
+    int yUp =0;
+    int yDown =0;
+
 };

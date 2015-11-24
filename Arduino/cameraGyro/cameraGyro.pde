@@ -9,7 +9,7 @@ String pressed;
 float num;
 
 String yawIn;
-String pitchIn;
+String pitchIn; //<>//
 String rollIn;
 
 float yaw;
@@ -20,7 +20,8 @@ int count;
 int imageCount;
 
 void setup() {
-  port = new Serial(this, "/dev/cu.usbmodem1421", 250000);
+ //port = new Serial(this, "/dev/cu.usbmodem1421", 250000);
+  port = new Serial(this, "/dev/cu.HC-06-DevB", 9600);
   port.bufferUntil('\t');
   
   size(640, 430);
@@ -75,14 +76,15 @@ void draw() {
     if(pitch > -10 && pitch < 10){
       if (roll > 70 && roll < 85){
         fill(255,0,0);
-        ellipse(width/2, height/2, 50,50);
+       // ellipse(width/2, height/2, 50,50);
         //will count the number of frames
         count++;
         //for every second (120 frames) make an image
            if(count % 120 == 0){
              fill(0,0,255);
-             ellipse(width/2, height/2, 50,50);
+             //ellipse(width/2, height/2, 50,50);
              imageCount ++;
+             saveFrame("image-#####.png");
            }
       }
     }

@@ -59,7 +59,7 @@ void ofApp::update(){
     
     
     
-    if (state == 1){
+    if (state == 3){
         //for green lines state!
         int y = ofGetHeight();
         xPosRight = xPosRight + 3;
@@ -178,7 +178,7 @@ void ofApp::draw(){
     }//end of state 1
     
     //CIRCLE FOR BEGNINNG!
-    if (state == 3){
+    if (state == 5){
         for (int i =0; i < bands; i ++){
             
 
@@ -279,7 +279,7 @@ void ofApp::draw(){
     
     
     //DIAGONAL GREEN LINES
-    if (state == 1){
+    if (state == 3){
         
         for (int i =0; i < bands; i ++){
             
@@ -348,13 +348,192 @@ void ofApp::draw(){
 //            }
             
             if(seconds == 42){
-                state = 1;
+                state = 4;
             }
             
             
         }
     }//end of state 3
 
+    
+    
+    //CIRCLE 2nd TIME STATE 4
+    if (state == 4){
+        
+        ofColor colorOne(0, 106, 229);
+        ofColor colorTwo(0, 0, 0);
+        
+        ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_CIRCULAR);
+        
+        for (int i =0; i < bands; i ++){
+            
+            
+            
+            ofSetColor(240, 111, 49, 20);
+            ofFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-3]*500));
+            
+            
+            ofSetColor(240, 46, 43, 40);
+            ofNoFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-2]*450));
+            
+            ofSetColor(88, 206, 200, 50);
+            ofFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-2]*350));
+            
+            ofSetColor(240, 40, 116, 60);
+            ofFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-3]*300));
+            
+            ofSetColor(218, 106, 240, 80);
+            ofFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-2]*150));
+            
+            ofSetColor(254, 140, 69);
+            ofFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i]*150));
+            
+            
+            
+            //Stroke
+            ofSetColor(186, 40, 239);
+            ofNoFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i]*150 +2));
+            
+            ofSetColor(158, 86, 140, 80);
+            ofNoFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-2]*150 +2));
+            
+            ofSetColor(137, 43, 119, 40);
+            ofNoFill();
+            ofCircle(ofGetWidth()/2, ofGetHeight()/2, -(fftSmooth[i-3]*500+2));
+            
+            
+            //lines
+            ofSetColor(240, 161, 169, 100);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2, ofGetHeight()/2+ (fftSmooth[i]*500));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2, ofGetHeight()/2- (fftSmooth[i]*500));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500), ofGetHeight()/2);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500), ofGetHeight()/2);
+        
+            
+            //diagonal lines
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*600), ofGetHeight()/2+ (fftSmooth[i]*600));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*600), ofGetHeight()/2- (fftSmooth[i]*600));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*600), ofGetHeight()/2- (fftSmooth[i]*600));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*600), ofGetHeight()/2+ (fftSmooth[i]*600));
+            
+            ofSetColor(236, 183, 29, 100);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*300), ofGetHeight()/2+ (fftSmooth[i]*300)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*300), ofGetHeight()/2- (fftSmooth[i]*300)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*300), ofGetHeight()/2- (fftSmooth[i]*300)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*300), ofGetHeight()/2+ (fftSmooth[i]*300)*.75);
+            
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)*.25, ofGetHeight()/2+ (fftSmooth[i]*500)*.25);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)*.25, ofGetHeight()/2- (fftSmooth[i]*500)*.25);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.25, ofGetHeight()/2+ (fftSmooth[i]*500)*.25);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.25, ofGetHeight()/2- (fftSmooth[i]*500)*.25);
+            
+            
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)*.75, ofGetHeight()/2+ (fftSmooth[i]*500)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*500)*.75, ofGetHeight()/2- (fftSmooth[i]*500)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.75, ofGetHeight()/2+ (fftSmooth[i]*500)*.75);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*500)*.75, ofGetHeight()/2- (fftSmooth[i]*500)*.75);
+            
+            //intense lines coming out of sides
+            ofSetColor(242, 117, 42, 40);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2-550, ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+550, ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*1000)-550, ofGetHeight()/2);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*1000)+550, ofGetHeight()/2);
+            
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+550, ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2-550, ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*1000)+550, ofGetHeight()/2);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*1000)-550, ofGetHeight()/2);
+            
+            //extra diagonal lines
+            ofSetColor(240, 161, 169, 100);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*1000), ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*1000), ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*1000), ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            
+            ofSetColor(240, 61, 69, 100);
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i-2]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i-2]*1000), ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i-2]*1000), ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i-2]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i-2]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i-2]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2+ (fftSmooth[i-2]*1000), ofGetHeight()/2- (fftSmooth[i]*1000));
+            ofLine(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2- (fftSmooth[i-2]*1000), ofGetHeight()/2+ (fftSmooth[i]*1000));
+            
+            
+            
+        }
+        
+        if (seconds == 17){
+            //after 40 seconds change the state
+            state = 2;
+        }
+    }//end of state 4
+
+    
+    //STATE 5 LINES ON WALLS
+    if(state == 1){
+        
+        ofColor colorOne(49, 46, 9);
+        ofColor colorTwo(0, 0, 0);
+        
+        ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_CIRCULAR);
+        
+        for (int i =0; i < bands; i ++){
+            
+            ofSetColor(240, 91, 242, 80);
+
+            for (int y =0; y < ofGetHeight(); y = y+30)
+            {
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2+ (fftSmooth[i]*800), y);
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2- (fftSmooth[i]*800), y);
+                
+            }
+        ofSetColor(188, 41, 242, 80);
+            for (int y =0; y < ofGetHeight(); y = y+100)
+            {
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2+ (fftSmooth[i]*600), y);
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2- (fftSmooth[i]*600), y);
+
+            }
+        ofSetColor(238, 87, 242, 80);
+            for (int y =25; y < ofGetHeight(); y = y+50)
+            {
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2+ (fftSmooth[i]*300), y);
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2- (fftSmooth[i]*300), y);
+                
+            }
+            
+            ofSetColor(240, 37, 152, 100);
+            for (int y =10; y < ofGetHeight(); y = y+20)
+            {
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2+ (fftSmooth[i]*200), y);
+                ofLine(ofGetWidth()/2, y, ofGetWidth()/2- (fftSmooth[i]*200), y);
+                
+            }
+
+        }
+        
+        if (seconds == 17){
+            //after 40 seconds change the state
+            state = 2;
+        }
+    
+    
+    }//end of state 5
+    
     
 }
 

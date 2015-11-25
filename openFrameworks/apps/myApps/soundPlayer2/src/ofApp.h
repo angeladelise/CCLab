@@ -40,5 +40,14 @@ class ofApp : public ofBaseApp{
     
     int yUp =0;
     int yDown =0;
+    
+    int xBottomLeft;
+    int xBottomRight;
 
+    int xRedLines;
+    int xRedLines2;
+    
+    int xRedLinesNotIntense;
+    int xRedLinesNotIntense2;
+    
 };

@@ -1,6 +1,6 @@
 import processing.video.*;
 
-import processing.serial.*;
+import processing.serial.*; //<>//
 Serial port;
 
 Capture cam;
@@ -21,7 +21,7 @@ int imageCount;
 
 void setup() {
  //port = new Serial(this, "/dev/cu.usbmodem1421", 250000);
-  port = new Serial(this, "/dev/cu.HC-06-DevB", 9600);
+  port = new Serial(this, "/dev/cu.usbmodem1421", 250000);
   port.bufferUntil('\t');
   
   size(640, 430);
@@ -73,20 +73,20 @@ void draw() {
     println("pitch" + pitch);
     println("roll" + roll);
     
-    if(pitch > -10 && pitch < 10){
-      if (roll > 70 && roll < 85){
+    if(roll > 15){
+      //if (roll > 70 && roll < 85){
         fill(255,0,0);
        // ellipse(width/2, height/2, 50,50);
         //will count the number of frames
         count++;
         //for every second (120 frames) make an image
-           if(count % 120 == 0){
+           if(count % 240 == 0){
              fill(0,0,255);
              //ellipse(width/2, height/2, 50,50);
              imageCount ++;
              saveFrame("image-#####.png");
            }
-      }
+     // }
     }
 
     //print out count and image count on screen
